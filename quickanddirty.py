@@ -3,8 +3,10 @@
 import boto3
 import time
 
-ec2 = boto3.resource('ec2')
-client = boto3.client('ec2')
+region='ap-northeast-1'
+
+ec2 = boto3.resource('ec2', region_name=region)
+client = boto3.client('ec2', region_name=region)
 
 keyfile = open('challengekey.pem','w')
 keypair = client.create_key_pair(KeyName='challengekey')
@@ -40,5 +42,5 @@ address = ec2.VpcAddress(eip['AllocationId'])
 time.sleep(30)
 address.associate(InstanceId=instances[0].id)
 
-
+print('http://' + eip['PublicIp'] + '/quick-and-dirty')
 
